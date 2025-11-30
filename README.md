@@ -36,3 +36,10 @@ Atributos:
 - ObjectMapper
 - Lista paises Buscados       -> Por si quieres ver que paises a buscado anteriormente
 - 
+
+
+Geoapify:
+
+apiKey → la que te dé Geoapify.
+categories → qué quieres buscar (por ejemplo catering.restaurant).
+filter o bias → para indicarle dónde buscar.

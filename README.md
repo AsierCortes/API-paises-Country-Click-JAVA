@@ -16,12 +16,23 @@ Funcionalidades:
        - Region
        - Población -> Un método que diga si es considerado una ciudad grande o pequeña dependiendo de la cantidad de habitantes
        - Paises alrededor, por si quiere visitar alguno cerca
-3. Informarte sobre monumentos, restaurantes etc...
-4. Ver tiempo y pronósctico de temperaturas
+4. Informarte sobre monumentos, restaurantes etc...
+5. Ver tiempo y pronósctico de temperaturas
        - Ver temperatura actual
        - Ver pronóstico de 1 a 7 días
        - Ver pronósticos pasado
        - Ver temperaturas máximas y mínimas de hoy
        - Ver clima
        
+Clases:
+- Buscador -> Es una clase nuestra, este permitirá realizar búsquedas de un pais (Todas las Apis)
+- Busqueda Viajes Aplication -> El usuario se comunicara con la aplicación por consola
+- Info_Pais -> Aqui es donde se encuentra la información del pais, procediente de Rest Countries
 
+
+Clase Buscador
+Atributos: 
+- Cliente
+- ObjectMapper
+- Lista paises Buscados       -> Por si quieres ver que paises a buscado anteriormente
+- 

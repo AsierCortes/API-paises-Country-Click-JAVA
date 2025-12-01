@@ -29,6 +29,7 @@ Clases:
        -> Métodos
        -> 1. Guardar objetos paises en un fichero (Serializar y deserializar objetos)
        -> 2. Guardar información pero escrita (FileWritter)
+       -> 3. Mapa donde eliges donde guardar la info de paises, tiempo etc. 
   
   
 - Busqueda Viajes Aplication -> El usuario se comunicara con la aplicación por consola

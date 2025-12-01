@@ -26,6 +26,11 @@ Funcionalidades:
        
 Clases:
 - Buscador -> Es una clase nuestra, este permitirá realizar búsquedas de un pais (Todas las Apis)
+       -> Métodos
+       -> 1. Guardar objetos paises en un fichero (Serializar y deserializar objetos)
+       -> 2. Guardar información pero escrita (FileWritter)
+  
+  
 - Busqueda Viajes Aplication -> El usuario se comunicara con la aplicación por consola
 - Info_Pais -> Aqui es donde se encuentra la información del pais, procediente de Rest Countries
 

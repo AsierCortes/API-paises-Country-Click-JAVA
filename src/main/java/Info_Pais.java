@@ -1,5 +1,6 @@
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -15,7 +16,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Info_Pais {
+public class Info_Pais implements Serializable{
 	private Name name;
     private Map<String, Currency> currencies;
     private List<String> capital;
@@ -25,9 +26,9 @@ public class Info_Pais {
     private List<String> timezones;
 	private int population;
 	
-	private HttpClient client = HttpClient.newHttpClient();
-	private ObjectMapper objmapper = new ObjectMapper();
-	private ArrayList <String> bordersCountryName = new ArrayList<String>();
+//	private HttpClient client = HttpClient.newHttpClient();
+//	private ObjectMapper objmapper = new ObjectMapper();
+//	private ArrayList <String> bordersCountryName = new ArrayList<String>();
 	
 	public Info_Pais() {
 	}
@@ -84,47 +85,47 @@ public class Info_Pais {
 	
 	// https://restcountries.com/v3.1/alpha/{code}?fields={field} -> code son
 	// siempre 3 letras (ESP, AND, FRA etc.)
-	public void fetchNeighborCountryNames() {
-		try {
-			StringBuilder urlMoficada = new StringBuilder("https://restcountries.com/v3.1/alpha/cod?fields=name");
-
-			int pos = 37;
-
-			// Realizamos petición
-			for (int i = 0; i < borders.size(); i++) {
-				char[] letrasPaisCC3 = borders.get(i).toCharArray(); // Guardamos cada letra (AND -> A, N, D)
-
-				// Sustituimos
-				for (char c : letrasPaisCC3) {
-					urlMoficada.setCharAt(pos, c);
-					pos++;
-				}
-				String url = new String(urlMoficada);
-				HttpRequest consulta = HttpRequest.newBuilder().uri(URI.create(url)).build();
-				HttpResponse<String> respuesta = client.send(consulta, BodyHandlers.ofString());
-				// La url devuelve un JSON que se puede mapear
-				Map<String, Name> nameMap = objmapper.readValue(respuesta.body(), new TypeReference<Map<String, Name>>() {});
-				bordersCountryName.add(nameMap.get("name").getCommon());
-				pos = 37;
-				
-				
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public List<String> getBordersCountryName() {
-		return bordersCountryName;
-	}
+//	public void fetchNeighborCountryNames() {
+//		try {
+//			StringBuilder urlMoficada = new StringBuilder("https://restcountries.com/v3.1/alpha/cod?fields=name");
+//
+//			int pos = 37;
+//
+//			// Realizamos petición
+//			for (int i = 0; i < borders.size(); i++) {
+//				char[] letrasPaisCC3 = borders.get(i).toCharArray(); // Guardamos cada letra (AND -> A, N, D)
+//
+//				// Sustituimos
+//				for (char c : letrasPaisCC3) {
+//					urlMoficada.setCharAt(pos, c);
+//					pos++;
+//				}
+//				String url = new String(urlMoficada);
+//				HttpRequest consulta = HttpRequest.newBuilder().uri(URI.create(url)).build();
+//				HttpResponse<String> respuesta = client.send(consulta, BodyHandlers.ofString());
+//				// La url devuelve un JSON que se puede mapear
+//				Map<String, Name> nameMap = objmapper.readValue(respuesta.body(), new TypeReference<Map<String, Name>>() {});
+//				bordersCountryName.add(nameMap.get("name").getCommon());
+//				pos = 37;
+//				
+//				
+//			}
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
+//	}
+//
+//	public List<String> getBordersCountryName() {
+//		return bordersCountryName;
+//	}
 
 
 	@Override
 	public String toString() {
 		return "Info_Pais [name=" + name.getCommon() + ", currencies=" + currencies.get("EUR").getName() + ". Simbolo=" + currencies.get("EUR").getSymbol() + ", capital=" + capital.get(0) + ", region=" + region
-				+ ", languages=" + languages + ", borders=" + getBordersCountryName() + ", timezones=" + timezones + ", population="
+				+ ", languages=" + languages + ", borders=" + getBorders() + ", timezones=" + timezones + ", population="
 				+ population + "]";
 	}
 	

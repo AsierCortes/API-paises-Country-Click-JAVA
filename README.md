@@ -25,28 +25,121 @@ Funcionalidades:
        - Ver temperaturas máximas y mínimas de hoy
        - Ver clima
        
-Clases:
-- Buscador -> Es una clase nuestra, este permitirá realizar búsquedas de un pais (Todas las Apis)
-       -> Métodos
-       -> 1. Guardar objetos paises en un fichero (Serializar y deserializar objetos)
-       -> 2. Guardar información pero escrita (FileWritter)
-       -> 3. Mapa donde eliges donde guardar la info de paises, tiempo etc. 
-  
-  
-- Busqueda Viajes Aplication -> El usuario se comunicara con la aplicación por consola
-- Info_Pais -> Aqui es donde se encuentra la información del pais, procediente de Rest Countries
+------------------------------------------------------------------------------------------------------------------
 
 
-Clase Buscador
-Atributos: 
-- Cliente
-- ObjectMapper
-- Lista paises Buscados       -> Por si quieres ver que paises a buscado anteriormente
-- 
+Fichero TXT:
 
 
-Geoapify:
+Cosas pendientes: 
+- Dar opción de que introduzca el pais a buscar información				-> HECHO
+	-> opción 1: crear un hashmap con nombre en español y luego traducirlo a ingles -> HECHO
+- Opción de añadir a favoritos								-> HECHO	
+- Opción de serializar el objeto							-> HECHO
+- Opción de guardarlo de un bloc de notas
 
-apiKey → la que te dé Geoapify.
-categories → qué quieres buscar (por ejemplo catering.restaurant).
-filter o bias → para indicarle dónde buscar.
+Buscador, quiero intentar separar los métodos
+
+
+---------------------------------------------------------------------------------------------
+
+Métodos
+Buscador:
+BuscarInfoPais() -> Recibe el nombre del país en español, lo traduce a ingles y te devuelve la información
+memoriaCaché -> nombre país (Ingles) | Info_Pais
+añadirFavoritos() -> Añade un pais a una lista los países favoritos	(Pais_Info)
+getPaisesFavoritos() -> Devuelve una la lista de países favoritos (Pais_Info)
+getPaisesHistorial() -> Devuelve una lista de los países que han sido buscados (Pais_Info)
+getConversionesRealizadasHistorial() -> devuelve una lista de las conversiones realizadas (ConversionResultado)
+guardarInfoFicheroSerializar() -> Se recibe una ruta, se crea o se sobreescribe en ese fichero y se guarda la lista Info_Pais (Instancias) IMPORTANTE!! Falta guardar conversión, sitios cercanos y tiempo
+deserializarInfoFichero() -> Falta lo mismo
+conversionDinero() -> recibe dinero, monedaOrigen y monedaDestino, comprueba que son códigos de monedas correctas (a través del map) y realiza la llamada, si todo va correcto devuelve el resultado.
+
+
+Falta:
+verLugares()
+
+
+
+
+PaisTraduccion
+traducirPais() -> TRADUCE el nombre del pais de Español a Ingles. IMPORTANTE lo devuelve en lower case
+
+CodigosValidosMonedas
+devolverCodigoMoneda() -> Recibe el nombre de la moneda, y si esta existe devuelve el codigo de dicha moneda
+
+
+
+
+---------------------------------------------------------------------------------------------
+ApiExchange
+key: b14440c452c066c853a3b051
+
+Moneda y valor en otros precios 
+-> https://v6.exchangerate-api.com/v6/b14440c452c066c853a3b051/latest/ USD
+
+Moneda y valor en un país en específico  (se basa en 1U -> 1 dólar a tal, 1 euro a tal) 
+-> https://v6.exchangerate-api.com/v6/b14440c452c066c853a3b051/pair/EUR/USD
+
+Moneda y cambio en un país en concreto 
+-> https://v6.exchangerate-api.com/v6/b14440c452c066c853a3b051/pair/EUR/USD/3.24
+
+Ver cuantas solicitudes nos queda
+-> https://v6.exchangerate-api.com/v6/b14440c452c066c853a3b051/quota
+
+----------------------------------------------------------------------------------------------
+
+GeoApify
+key: 4efa5b9378404e32ba072c042705e870
+
+Buscar gimnasios en las rozas:
+Ej -> https://api.geoapify.com/v2/places?categories=entertainment.cinema&bias.proximity:40.49084841629886,-3.8741767905296456&limit=20&apiKey=4efa5b9378404e32ba072c042705e870
+Obligatorio: Clave API y una categoría
+
+Usuario elije capital
+Usuario elije distancia max km2
+
+Buscar aeropuertos cercanos	-> airport
+Buscar centros comerciales
+	- Buscar centros comerciales de ropa -> commercial.clothing
+	- Buscar tiendas de comida y alimentación -> commercial.food_and_drink
+	- Buscar farmacias ->	commercial.health_and_beauty.pharmacy
+	- Buscar mercadillos -> commercial.marketplace
+
+Restaurantes
+	- Restaurante Comida rápida -> catering.fast_food
+	- Restaurante Kebab ->	catering.fast_food.kebab
+	- Restaurante Pizzas -> catering.fast_food.pizza
+	- Restaurantes tacos -> catering.fast_food.tacos
+	- Restaurantes por lugares:
+		- Restaurante argentino -> catering.restaurant.argentinian
+		- Restaurante asiatico -> catering.restaurant.asian
+		- Restaurante brasileño -> catering.restaurant.brazilian
+		- Restaurante Japones -> catering.restaurant.japanese
+
+Emergencias / Salud
+	- Ambulancias -> emergency.ambulance_station
+	- Hospitales -> healthcare.hospital
+	- Entradas urgencias -> emergency.emergency_ward_entrance
+	- Podólogos -> healthcare.podiatrist
+	- Oculistas -> healthcare.optometrist
+Entretenimiento
+	- Cine -> entertainment.cinema
+	- Cultura -> entertainment.culture
+	- Teatros -> entertainment.culture.theatre
+	- Museos -> entertainment.museum
+	- Planetarios -> entertainment.planetarium
+	- Zoo -> entertainment.zoo
+	- Aquario -> entertainment.aquarium
+
+	- Parques de atracciones:
+		- Parque de atracciones -> entertainment.theme_park
+		- Parque acuático ->	entertainment.water_park
+
+	
+	
+------------------------------------------------------------------------------------------------
+Presentación:
+- De que iba el proyecto anterior
+- Contar las tecnologías que usamos
+- El programa que pasa si no hay wifi

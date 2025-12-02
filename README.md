@@ -17,7 +17,8 @@ Funcionalidades:
        - Población -> Un método que diga si es considerado una ciudad grande o pequeña dependiendo de la cantidad de habitantes
        - Paises alrededor, por si quiere visitar alguno cerca
 3. Informarte sobre monumentos, restaurantes etc...
-4. Ver tiempo y pronósctico de temperaturas
+4. Hacer cambios de monedas  
+5. Ver tiempo y pronósctico de temperaturas
        - Ver temperatura actual
        - Ver pronóstico de 1 a 7 días
        - Ver pronósticos pasado

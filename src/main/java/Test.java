@@ -23,7 +23,6 @@ public class Test {
 			List<Info_Pais> paises = objmap.readValue(respuestaConsulta.body(), new TypeReference<List<Info_Pais>>() {});
 			
 			for (Info_Pais paisActual : paises) {
-				paisActual.fetchNeighborCountryNames();
 				System.out.println(paisActual);
 			}
 		} catch (JsonMappingException e) {

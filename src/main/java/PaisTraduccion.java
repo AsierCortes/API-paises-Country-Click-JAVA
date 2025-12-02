@@ -1,10 +1,11 @@
 import java.util.HashMap;
 import java.util.Map;
 
-public class PaisTranslation {
+// TRADUCE el nombre del pais de Español a Ingles. IMPORTANTE lo devuelve en lower case
+public class PaisTraduccion {
 	private Map<String, String> traduccion;
 
-	public PaisTranslation() {
+	public PaisTraduccion() {
 		this.traduccion = new HashMap<String, String>();
 		traduccion.put("antigua y barbuda", "antigua and barbuda");
 		traduccion.put("bután", "bhutan");
@@ -259,17 +260,21 @@ public class PaisTranslation {
 
 	}
 	/**	
-	 * Este método devuelve el nombre del país (siempre y cuando exista en el map).
-	 * De lo contrario returna un null
-	 * 
+	 * TRADUCE el nombre del pais de Español a Ingles. IMPORTANTE lo devuelve en lower case
+	 *
 	 * @return traduccionIngles
 	 */
 	public String traducirPais(String pais) {
+		// A lower case
 		String paisTraducir = pais.toLowerCase();
+		
+		// Busca si esta en el map
 		if(traduccion.containsKey(paisTraducir)) {
 			System.out.println("Desde traducir pais, devuelvo: " + traduccion.get(paisTraducir));
+			// Devuelve el pais traducido
 			return traduccion.get(paisTraducir);
 		}else {
+			// Si no esta devuelve null
 			return null;
 		}
 	}

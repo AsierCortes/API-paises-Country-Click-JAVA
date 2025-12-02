@@ -19,59 +19,58 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Buscador {
-	private Set<Info_Pais> paisesBuscados; // SET ya que no quiero que se repita
+	// SETS ya que no quiero que se repita
+	private Set<Info_Pais> paisesHistorial;
 	private Set<Info_Pais> paisesFavoritos;
 
 	private HttpClient cliente;
 	private ObjectMapper objmapper;
-	private PaisTranslation paisTranslation;
+	private PaisTraduccion paisTraduccion;
 
-	// CACHÉ -> Aqui es donde se va a guardar el código el nombre en español y el
-	// pais (Instancia)
+	// CACHÉ -> Se guarda paisEnIngles y el objeto Info_Pais
 	private Map<String, Info_Pais> memoriaCache;
 
 	public Buscador() {
-		this.paisesBuscados = new HashSet<Info_Pais>();
+		this.paisesHistorial = new HashSet<Info_Pais>();
 		this.paisesFavoritos = new HashSet<Info_Pais>();
 		this.memoriaCache = new HashMap<String, Info_Pais>();
 		this.cliente = HttpClient.newHttpClient();
 		this.objmapper = new ObjectMapper();
-		this.paisTranslation = new PaisTranslation();
+		this.paisTraduccion = new PaisTraduccion();
 	}
 
-	/*
-	 * Parámetro: pais -> Es el pais del que se desea buscar información Retorno: Se
-	 * va a devolver un objeto pais
+	/*	Parámetros
+	 * 	pais -> Nombre en español del pais 
+	 * 	
+	 * 	BuscarInfoPais() -> Recibe el nombre del país en español, lo traduce a ingles y 
+	 * 	te devuelve la información (instancia Info_Pais). Cualquier error, o si no se ha 
+	 * 	encontrado información sobre ese pais devuelve null
 	 * 
-	 * 1. Trasladar el nombre del pais en español a Ingles 2. Comprobamos si se
-	 * encuentra guardado en el caché 3. Tenemos que hacer la llamada 4. Comprobar
-	 * que la llamada devuelve resultados correctos. Si es así guardamos la
-	 * respuesta de lo contrario devolvemos null 5. Mappear elobjeto 6. Guardar el
-	 * objeto en el map 7. Y devolverlo
-	 * 
-	 * 
-	 * url:
-	 * https://restcountries.com/v3.1/name/{nombrePais}?fields={field},{field},{
-	 * field}
+	 * 	url: https://restcountries.com/v3.1/name/{nombrePais}?fields={field},{field},{field}
 	 */
 	public Info_Pais buscarInfoPais(String pais) {
 		try {
-			// 1
-			String traduccion = paisTranslation.traducirPais(pais);
-			
-			// Si se ha encontrado
-			if (traduccion != null) {
+			// 1 Traducimos a ingles el nomrbe
+			String paisEnIngles = paisTraduccion.traducirPais(pais); // Lo devuelve en lowercase
 
-				// 2
-				if (memoriaCache.containsKey(traduccion)) {
-					return memoriaCache.get(traduccion);
+			// Si se ha traducido correctamente
+			if (paisEnIngles != null) {
+
+				// 2 Buscamos en el map
+				if (memoriaCache.containsKey(paisEnIngles)) {
+					System.out.println(paisEnIngles + " -> Se encuentra en la caché");
+					return memoriaCache.get(paisEnIngles); // Si esta en el caché devolvemos el objeto (Info_Pais)
+				// Si no se encuentra en el map, hay que hacer la llamada a la API
 				} else {
+					System.out.println(paisEnIngles + " -> NO esta en la caché");
 
 					// Tenemos que añadir al final unicamente el nombre del pais en ingles
 					StringBuilder urlModificar = new StringBuilder("https://restcountries.com/v3.1/name/");
-					urlModificar.append(traduccion);
+					urlModificar.append(paisEnIngles); // Lo añadimos
 
 					String url = new String(urlModificar);
+
+					// Hacemos llamada
 					HttpRequest consulta = HttpRequest.newBuilder().uri(URI.create(url)).build();
 					HttpResponse<String> respuestaConsulta = cliente.send(consulta, BodyHandlers.ofString());
 
@@ -80,22 +79,22 @@ public class Buscador {
 
 					if (respuestaServidor == 200) {
 						// ÉXITO
-						// Hay que crear un new TyperReference
+						// Hay que crear un new TyperReference (Lista de Info_Pais)
 						List<Info_Pais> paises = objmapper.readValue(respuestaConsulta.body(),
 								new TypeReference<List<Info_Pais>>() {
 								});
 
-						// GUARDAMOS EN EL CACHÉ. Nombre del pais minusculas (Ya viene en minúscula) y
-						// la propia instancia
-						memoriaCache.put(traduccion, paises.get(0));
-						paisesBuscados.add(paises.get(0)); // Guardamos el pais en buscados
-						return paises.get(0); // Returnamos el primero, que es el unico pais buscado
+						// Guardamos en la cache (nombreIngles -> Objeto (Info_Pais))
+						memoriaCache.put(paisEnIngles, paises.get(0)); 
+						paisesHistorial.add(paises.get(0)); // Guardamos el pais en historial
+						return paises.get(0); // Returnamos el primero, que es el unico pais buscado (instancia ->
+												// Paises_Info)
 					} else {
 						// NO ENCONTRADO O ERROR SERVIDOR
 						return null;
 					}
 				}
-
+				// Si no se ha podido traducir correctamente
 			} else {
 				return null;
 			}
@@ -104,61 +103,56 @@ public class Buscador {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return null; // Si ha habido un error
 	}
 
+	// Añade a favoritos el pais
 	public void aniadirFavoritos(Info_Pais pais) {
 		paisesFavoritos.add(pais);
 	}
 
 	/*
 	 * Recibe como parámetro el path donde se creará el archivo, o donde se
-	 * guardará, y también recibirá una lista de nombres de los paises en español que se desea
-	 * guardar
+	 * guardará, y también recibirá una lista de nombres de los paises en español
+	 * que se desea guardar
 	 * 
 	 * devuelve un String -> Mensaje que informa si se ha podido guardar
 	 * correctamente
 	 * 
-	 * 1. Creamos un objeto File con dicha ruta 
-	 * 2. Comprobamos que se pueda leer dicha ruta 
-	 * 		2.1 Si se puede continuamos 
-	 * 		2.2 De lo contrario devolvemos un mensaje 
-	 * 3. Guardamos en una lista los objetos 
-	 * 		3.1 Vemos si esta en el cache (IMPORANTRE pais en ingles)
-	 * 		3.2 Si no llamamos al metodo
-	 * 4. Serializamos la lista de Paises 
-	 * 		4.1 Si se ha hecho correctamente mandamos un mensaje como ("Se ha guardado la inforamción")
+	 * 1. Creamos un objeto File con dicha ruta 2. Comprobamos que se pueda leer
+	 * dicha ruta 2.1 Si se puede continuamos 2.2 De lo contrario devolvemos un
+	 * mensaje 3. Guardamos en una lista los objetos 3.1 Vemos si esta en el cache
+	 * (IMPORANTRE pais en ingles) 3.2 Si no llamamos al metodo 4. Serializamos la
+	 * lista de Paises 4.1 Si se ha hecho correctamente mandamos un mensaje como
+	 * ("Se ha guardado la inforamción")
 	 * 
 	 * 
 	 * 
 	 */
-	public String guardarInfoFichero(String pathAbsoluto, ArrayList<String> paises) {
+
+	public Set<Info_Pais> getPaisesHistorial() {
+		return paisesHistorial;
+	}
+
+	public Set<Info_Pais> getPaisesFavoritos() {
+		return paisesFavoritos;
+	}
+
+	// pathAbsoluto -> Fichero donde se va a guardar
+	// paisesGuardar -> Lista de Info_Pais (Objetos)
+	
+	/*	guardarInfoFichero() -> Se recibe una ruta, se crea o se sobreescribe en ese fichero
+	 * 	y se guarda la lista Info_Pais (Instancias)
+	 * 
+	 */
+	public String guardarInfoFichero(String pathAbsoluto, ArrayList<Info_Pais> paisesGuardar) {
 		try {
-			// 1.
+			// 1. Creamos fichero
 			File fichero = new File(pathAbsoluto);
-			// 2.
+			// 2. Vemos si se puede leer y escribir
 			if (fichero.canRead() && fichero.canWrite()) {
-				ArrayList <Info_Pais> paisesGuardar = new ArrayList<Info_Pais>();
-				// 3.
-				for (String nombre : paises) {
-					System.out.println("Memoria caché: " + memoriaCache);
-					String traduccion = paisTranslation.traducirPais(nombre);
-					
-					if(memoriaCache.containsKey(traduccion)) {
-						System.out.println("Esta en la memoria caché");
-						Info_Pais pais = memoriaCache.get(traduccion);
-						paisesGuardar.add(pais);
-					}else {
-						System.out.println("No esta en la memoria caché");
-						System.out.println("Se va a realizar una petición");
-						Info_Pais pais = buscarInfoPais(nombre);
-						paisesGuardar.add(pais);
-					}
-					
-				}
-				System.out.println("Paises a guardar: " + paisesGuardar);
 				
-				// 4. 
+				// Guardamos la lista
 				ObjectOutputStream serializarPaises = new ObjectOutputStream(new FileOutputStream(fichero));
 				serializarPaises.writeObject(paisesGuardar);
 				return "Se ha guardado la informacion de los paises en tu dispositivo";

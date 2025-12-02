@@ -1,14 +1,17 @@
+package Aplicacion;
+
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -23,9 +26,14 @@ public class Buscador {
 	private Set<Info_Pais> paisesHistorial;
 	private Set<Info_Pais> paisesFavoritos;
 
+	private Set<ConversionResultado> conversionesRealizadasHistorial;
+
 	private HttpClient cliente;
 	private ObjectMapper objmapper;
 	private PaisTraduccion paisTraduccion;
+	private CodigosValidosMonedas codigosValidosMonedas;
+
+	private String claveApiExchange = "b14440c452c066c853a3b051";
 
 	// CACHÉ -> Se guarda paisEnIngles y el objeto Info_Pais
 	private Map<String, Info_Pais> memoriaCache;
@@ -33,20 +41,24 @@ public class Buscador {
 	public Buscador() {
 		this.paisesHistorial = new HashSet<Info_Pais>();
 		this.paisesFavoritos = new HashSet<Info_Pais>();
+		this.conversionesRealizadasHistorial = new HashSet<ConversionResultado>();
 		this.memoriaCache = new HashMap<String, Info_Pais>();
 		this.cliente = HttpClient.newHttpClient();
 		this.objmapper = new ObjectMapper();
 		this.paisTraduccion = new PaisTraduccion();
+		this.codigosValidosMonedas = new CodigosValidosMonedas();
 	}
 
-	/*	Parámetros
-	 * 	pais -> Nombre en español del pais 
-	 * 	
-	 * 	BuscarInfoPais() -> Recibe el nombre del país en español, lo traduce a ingles y 
-	 * 	te devuelve la información (instancia Info_Pais). Cualquier error, o si no se ha 
-	 * 	encontrado información sobre ese pais devuelve null
+	/*
+	 * Parámetros pais -> Nombre en español del pais
 	 * 
-	 * 	url: https://restcountries.com/v3.1/name/{nombrePais}?fields={field},{field},{field}
+	 * BuscarInfoPais() -> Recibe el nombre del país en español, lo traduce a ingles
+	 * y te devuelve la información (instancia Info_Pais). Cualquier error, o si no
+	 * se ha encontrado información sobre ese pais devuelve null
+	 * 
+	 * url:
+	 * https://restcountries.com/v3.1/name/{nombrePais}?fields={field},{field},{
+	 * field}
 	 */
 	public Info_Pais buscarInfoPais(String pais) {
 		try {
@@ -60,7 +72,7 @@ public class Buscador {
 				if (memoriaCache.containsKey(paisEnIngles)) {
 					System.out.println(paisEnIngles + " -> Se encuentra en la caché");
 					return memoriaCache.get(paisEnIngles); // Si esta en el caché devolvemos el objeto (Info_Pais)
-				// Si no se encuentra en el map, hay que hacer la llamada a la API
+					// Si no se encuentra en el map, hay que hacer la llamada a la API
 				} else {
 					System.out.println(paisEnIngles + " -> NO esta en la caché");
 
@@ -85,7 +97,7 @@ public class Buscador {
 								});
 
 						// Guardamos en la cache (nombreIngles -> Objeto (Info_Pais))
-						memoriaCache.put(paisEnIngles, paises.get(0)); 
+						memoriaCache.put(paisEnIngles, paises.get(0));
 						paisesHistorial.add(paises.get(0)); // Guardamos el pais en historial
 						return paises.get(0); // Returnamos el primero, que es el unico pais buscado (instancia ->
 												// Paises_Info)
@@ -138,20 +150,25 @@ public class Buscador {
 		return paisesFavoritos;
 	}
 
+	public Set<ConversionResultado> getConversionesRealizadas() {
+		return conversionesRealizadasHistorial;
+	}
+
 	// pathAbsoluto -> Fichero donde se va a guardar
 	// paisesGuardar -> Lista de Info_Pais (Objetos)
-	
-	/*	guardarInfoFichero() -> Se recibe una ruta, se crea o se sobreescribe en ese fichero
-	 * 	y se guarda la lista Info_Pais (Instancias)
+
+	/*
+	 * guardarInfoFichero() -> Se recibe una ruta, se crea o se sobreescribe en ese
+	 * fichero y se guarda la lista Info_Pais (Instancias)
 	 * 
 	 */
-	public String guardarInfoFichero(String pathAbsoluto, ArrayList<Info_Pais> paisesGuardar) {
+	public String guardarInfoFicheroSerializar(String pathAbsoluto, Set<Info_Pais> paisesGuardar) {
 		try {
 			// 1. Creamos fichero
 			File fichero = new File(pathAbsoluto);
 			// 2. Vemos si se puede leer y escribir
 			if (fichero.canRead() && fichero.canWrite()) {
-				
+
 				// Guardamos la lista
 				ObjectOutputStream serializarPaises = new ObjectOutputStream(new FileOutputStream(fichero));
 				serializarPaises.writeObject(paisesGuardar);
@@ -165,5 +182,86 @@ public class Buscador {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	/*
+	 * Parametro: - pathAbsoluto -> Fichero donde se encuentra objetos serializados
+	 * 
+	 * deserializarInfoFichero() -> a través del path absoluto deserializa los
+	 * objetos que hay en ese fichero. Una vez deserializado devuelve el set. Si no
+	 * ha podido deserializarlo devuelve null
+	 * 
+	 */
+	public Set<Info_Pais> deserializarInfoFichero(String pathAbsoluto) {
+		try {
+			// 1. Creamos fichero
+			File fichero = new File(pathAbsoluto);
+			// 2. Vemos si se puede leer y escribir
+			if (fichero.canRead() && fichero.canWrite()) {
+				ObjectInputStream deserializarPaises = new ObjectInputStream(new FileInputStream(fichero));
+				Set<Info_Pais> infoExportada = (Set<Info_Pais>) deserializarPaises.readObject();
+				return infoExportada;
+			} else {
+				return null;
+			}
+		} catch (IOException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/*
+	 * Parametros: - dinero -> Dinero que hay convertir - monedaOrigen -
+	 * monedaDestino
+	 * 
+	 * conversionDinero() -> recibe dinero, monedaOrigen y monedaDestino, comprueba
+	 * que son códigos de monedas correctas (a través del map) y realiza la llamada,
+	 * si todo va correcto devuelve el resultado.
+	 * 
+	 * https://v6.exchangerate-api.com/v6/b14440c452c066c853a3b051/pair/EUR/USD/3.24
+	 */
+	public double conversionDinero(double dinero, String monedaOrigen, String monedaDestino) {
+		try {
+			String codigoOrigen = codigosValidosMonedas.devolverCodigoMoneda(monedaOrigen);
+			String codigoDestino = codigosValidosMonedas.devolverCodigoMoneda(monedaDestino);
+			// Si se ha encontrado bien el codigo
+			if (codigoOrigen != null && codigoDestino != null) {
+				StringBuilder urlModificada = new StringBuilder(
+						"https://v6.exchangerate-api.com/v6/b14440c452c066c853a3b051/pair/");
+				urlModificada.append(codigoOrigen + "/");
+				urlModificada.append(codigoDestino + "/");
+				urlModificada.append(String.valueOf(dinero));
+
+				String url = new String(urlModificada);
+
+				// Realizar llamada
+				HttpRequest consulta = HttpRequest.newBuilder().uri(URI.create(url)).build();
+				HttpResponse<String> respuestaConsulta = cliente.send(consulta, BodyHandlers.ofString());
+
+				// Recuperamos la respuesta de la consulta
+				int respuestaServidor = respuestaConsulta.statusCode();
+
+				if (respuestaServidor == 200) {
+					// ÉXITO
+					ConversionResultado conversion = objmapper.readValue(respuestaConsulta.body(),
+							ConversionResultado.class);
+					conversionesRealizadasHistorial.add(conversion);
+					return conversion.getResultado();
+				} else {
+					// NO ENCONTRADO O ERROR SERVIDOR
+					return 0;
+				}
+
+			}
+			// Si no se ha encontrado
+			else {
+				return 0;
+			}
+		} catch (IOException | InterruptedException e) {
+			e.printStackTrace();
+		}
+		return 0;
+
 	}
 }

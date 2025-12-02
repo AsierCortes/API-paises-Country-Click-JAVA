@@ -1,3 +1,4 @@
+package Aplicacion;
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

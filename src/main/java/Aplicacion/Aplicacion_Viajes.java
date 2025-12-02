@@ -25,8 +25,8 @@ public class Aplicacion_Viajes {
 		System.out.println(buscador.guardarInfoFicheroSerializar("C:\\Users\\asier\\Downloads\\hola.txt", paisesGuardar));	
 		System.out.println(buscador.deserializarInfoFichero("C:\\Users\\asier\\Downloads\\hola.txt"));
 		
-		//System.out.println(buscador.conversionDinero(1.2, "euro", "dolar"));	
-		System.out.println(buscador.getConversionesRealizadas());
+//		System.out.println(buscador.conversionDinero(1.2, "eusro", "dolar"));	
+//		System.out.println(buscador.getConversionesRealizadas());
 
 	}
 	

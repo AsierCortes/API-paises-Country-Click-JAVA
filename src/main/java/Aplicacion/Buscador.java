@@ -33,8 +33,6 @@ public class Buscador {
 	private PaisTraduccion paisTraduccion;
 	private CodigosValidosMonedas codigosValidosMonedas;
 
-	private String claveApiExchange = "b14440c452c066c853a3b051";
-
 	// CACHÉ -> Se guarda paisEnIngles y el objeto Info_Pais
 	private Map<String, Info_Pais> memoriaCache;
 
@@ -150,7 +148,7 @@ public class Buscador {
 		return paisesFavoritos;
 	}
 
-	public Set<ConversionResultado> getConversionesRealizadas() {
+	public Set<ConversionResultado> getConversionesRealizadasHistorial() {
 		return conversionesRealizadasHistorial;
 	}
 

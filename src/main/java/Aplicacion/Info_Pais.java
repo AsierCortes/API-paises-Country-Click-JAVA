@@ -20,24 +20,27 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Info_Pais implements Serializable {
 	@JsonProperty("name")
-    private Nombre nombre;
+	private Nombre nombre;
 
-    @JsonProperty("currencies")
-    private Map<String, Moneda> moneda;
-    private List<String> capital;
-    private String region;
+	@JsonProperty("currencies")
+	private Map<String, Moneda> moneda;
+	private List<String> capital;
+	private String region;
 
-    @JsonProperty("languages")
-    private HashMap<String, String> lenguajes;
+	@JsonProperty("languages")
+	private HashMap<String, String> lenguajes;
 
-    @JsonProperty("borders")
-    private List<String> bordes;
+	@JsonProperty("borders")
+	private List<String> bordes;
 
-    @JsonProperty("timezones")
-    private List<String> zonaHoraria;
+	@JsonProperty("timezones")
+	private List<String> zonaHoraria;
 
-    @JsonProperty("population")
-    private int poblacion;
+	@JsonProperty("population")
+	private int poblacion;
+
+	@JsonProperty("capitalInfo")
+	private Map<String, List<Double>> infoCapital;
 
 //	private HttpClient client = HttpClient.newHttpClient();
 //	private ObjectMapper objmapper = new ObjectMapper();
@@ -45,7 +48,7 @@ public class Info_Pais implements Serializable {
 
 	public Info_Pais() {
 	}
-	
+
 	public Nombre getNombre() {
 		return nombre;
 	}
@@ -112,24 +115,41 @@ public class Info_Pais implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Info_Pais [nombre=" + nombre.getNombreComun() + ", moneda=" + getNombreMoneda() + ", simbolo= "+ getSimboloMoneda() + ", capital=" + capital + ", region=" + region
-				+ ", lenguajes=" + lenguajes + ", bordes=" + bordes + ", zonaHoraria=" + zonaHoraria + ", poblacion="
-				+ poblacion + "]";
+		return "Info_Pais [nombre=" + nombre.getNombreComun() + ", moneda=" + getNombreMoneda() + ", simbolo= "
+				+ getSimboloMoneda() + ", capital=" + capital + "capital coordenadas -> " + getLatitudCapital() + ", "
+				+ getLongitudCapital() + ", region=" + region + ", lenguajes=" + lenguajes + ", bordes=" + bordes
+				+ ", zonaHoraria=" + zonaHoraria + ", poblacion=" + poblacion + " ]";
 	}
-	
+
 	public String getNombreMoneda() {
 		String claveUnica = moneda.keySet().iterator().next();
 		String nombreMoneda = moneda.get(claveUnica).getNombre();
 		return nombreMoneda;
 	}
+
 	public String getSimboloMoneda() {
 		String claveUnica = moneda.keySet().iterator().next();
 		String simboloMoneda = moneda.get(claveUnica).getSimbolo();
 		return simboloMoneda;
 	}
-	
-	
-	
+
+	// Este método devuelve la Longitud de la Capital, esto lo hago para luego
+	// usarlo más tarde en
+	// la api geoApify
+	public double getLatitudCapital() {
+		if (infoCapital != null && infoCapital.containsKey("latlng")) {
+			return infoCapital.get("latlng").get(0); // Posición 0 es latitud
+		}
+		return 0.0;
+	}
+
+	public double getLongitudCapital() {
+		if (infoCapital != null && infoCapital.containsKey("latlng")) {
+			return infoCapital.get("latlng").get(1); // Posición 1 es la longuitud
+		}
+		return 0.0;
+	}
+
 	// https://restcountries.com/v3.1/alpha/{code}?fields={field} -> code son
 	// siempre 3 letras (ESP, AND, FRA etc.)
 //	public void fetchNeighborCountryNames() {
@@ -167,9 +187,5 @@ public class Info_Pais implements Serializable {
 //	public List<String> getBordersCountryName() {
 //		return bordersCountryName;
 //	}
-
-	
-
-	
 
 }

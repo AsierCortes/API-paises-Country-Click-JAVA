@@ -73,5 +73,19 @@ public class CodigosValidosMonedas {
 		}
 	}
 	
+	public void getTodosLosCodigosMoneda() {
+		int contador = 1;
+		System.out.println("Nombre ----> CodigoMoneda");
+		for (Map.Entry<String, String> map : codigosMonedas.entrySet()) {
+			String nombre = map.getKey();
+			String codigoMoneda = map.getValue();
+			
+			System.out.println(contador + ". " + nombre + " ----> " + codigoMoneda);
+			contador++;
+		}
+		
+		System.out.println(" ");
+	}
+	
 	
 }

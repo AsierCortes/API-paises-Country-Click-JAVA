@@ -143,3 +143,40 @@ Presentación:
 - De que iba el proyecto anterior
 - Contar las tecnologías que usamos
 - El programa que pasa si no hay wifi
+
+
+
+
+Power point
+1. Idea Principal y app anterior  ------> Bien lo unico foto chatbot
+2. Funcionalidad --> EJEMPLO consola
+3. Apis Usadas -> Nombras cada api. una foto de la propia foto del logo rest country.
+	3.1 RestCountry
+   	-> Foto de la esctructura json y
+   	-> Clases para leer el json
+   	-> Métodos más importantes -> Buscar infoPais()
+
+   3.2 Exchange Rate api
+   -> Foto de la esctructura json y
+   -> Clases para leer el json
+   -> Métodos mas importantes : conversionDInerio()
+
+   3.3 GeoApify
+   -> Foto de la esctructura json y
+   -> Clases para leer el json
+   -> Métodos imporatnesd: buscarlugarinfo()
+   -> Información (filtrar, categorias, delimitadores, que funciona por coordanas)
+
+4. Expiicar una llamada de cualquier api
+5. Métodos extra
+	5.1 SerializarFIchero
+   	5.2 Deserailizar
+	5.3 Ver paises favoritos
+   	Fotos y explicar objetivo de cada método -> foto consola
+
+6. Excepciones
+   6.1 InputMismatch
+   6.2 Si desconectas que no de error
+
+7. DEMO
+8. FIN

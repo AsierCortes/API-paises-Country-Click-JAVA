@@ -12,6 +12,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -261,5 +262,71 @@ public class Buscador {
 		}
 		return 0;
 
+	}
+
+	public ArrayList<Lugares> buscarLugar(ArrayList<Double> coordenadas, int delimitador, ArrayList<String> categorias,
+			int cantidadResultados) {
+
+		try {
+			double longuitud = coordenadas.get(0);
+			double latitud = coordenadas.get(1);
+
+			// Sacamos la cantidad de categorias
+			int cantidadDeCategorias = categorias.size();
+			int ultimaComa = cantidadDeCategorias - 1;
+			int contador = 0;
+
+			String filtro = "&filter=circle:";
+			StringBuilder urlModificada = new StringBuilder("https://api.geoapify.com/v2/places?categories=");
+
+			// Solo si contiene más de una categoria
+			if (cantidadDeCategorias > 1) {
+				// Bucle for
+				for (String categoriaActual : categorias) {
+
+					if (contador >= ultimaComa) {
+						urlModificada.append(categoriaActual);
+					} else {
+						urlModificada.append(categoriaActual + ",");
+					}
+					contador++;
+				}
+
+			} else {
+				// Si contiene menos
+				urlModificada.append(categorias.get(0));
+			}
+
+			// Añadimos el filtro, longuitud, latitud, km2, cantidad de resultados y apikey
+			urlModificada.append(filtro + longuitud + "," + latitud + "," + delimitador + "&bias=proximity:" + longuitud + "," + latitud + "&limit=" + cantidadResultados 
+					+ "&apiKey=4efa5b9378404e32ba072c042705e870"); // Añadimos el delimitador y cantidad de resultados
+
+			String url = new String(urlModificada);
+			System.out.println(url);
+			// Hacemos llamada
+			HttpRequest consulta = HttpRequest.newBuilder().uri(URI.create(url)).build();
+			HttpResponse<String> respuestaConsulta = cliente.send(consulta, BodyHandlers.ofString());
+			
+			// Recuperamos la respuesta de la consulta
+			int respuestaServidor = respuestaConsulta.statusCode();
+
+			if (respuestaServidor == 200) {
+				// ÉXITO
+				JSON_RespuestaGeoApify respuestaJSON = objmapper.readValue(respuestaConsulta.body(),
+						JSON_RespuestaGeoApify.class);
+				ArrayList <Lugares> resultadoLugares = respuestaJSON.getColeccionFeatures();
+				return resultadoLugares;
+			} else {
+				// NO ENCONTRADO O ERROR SERVIDOR
+				return null;
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

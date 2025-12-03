@@ -41,5 +41,10 @@ public class LugarBuscadoInfo {
 	public void setHorario(String horario) {
 		this.horario = horario;
 	}
-
+	
+	
+	@Override
+	public String toString() {
+		return "LugarBuscadoInfo [nombre=" + nombre + ", ubicacion=" + ubicacion + ", horario=" + horario + "]";
+	}
 }

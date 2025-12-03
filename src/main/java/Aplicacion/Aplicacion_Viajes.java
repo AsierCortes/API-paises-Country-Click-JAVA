@@ -4,6 +4,7 @@
  */
 package Aplicacion;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,23 +12,32 @@ public class Aplicacion_Viajes {
 
 	public static void main(String[] args) {
 		Buscador buscador = new Buscador();
-	
-		Set<Info_Pais> paisesGuardar = new HashSet<Info_Pais>();
-		System.out.println(buscador.buscarInfoPais("portugal"));
-		paisesGuardar.add(buscador.buscarInfoPais("españa"));
-		System.out.println(buscador.buscarInfoPais("portugal"));
-		paisesGuardar = buscador.getPaisesHistorial();
+		saludar();
 		
-		System.out.println("Paises historial: " + buscador.getPaisesHistorial());
-		if(buscador.buscarInfoPais("ITAholaLIA") == null) {
-			System.out.println("no se ha encontrado el pais");
-		}
-		System.out.println(buscador.guardarInfoFicheroSerializar("C:\\Users\\asier\\Downloads\\hola.txt", paisesGuardar));	
-		System.out.println(buscador.deserializarInfoFichero("C:\\Users\\asier\\Downloads\\hola.txt"));
 		
-//		System.out.println(buscador.conversionDinero(1.2, "eusro", "dolar"));	
-//		System.out.println(buscador.getConversionesRealizadas());
 
+	}
+	
+	static void saludar() {
+		try {
+		for (int i = 0; i < 50; i++) {
+				System.out.println("Cargando aplicación........");
+				Thread.sleep(100);
+		}
+		System.out.println(" ");
+		System.out.println("--------------------------------------------------------");
+		System.out.println("APLICACIÓN CARGADA: Asistente de Viajes");
+		
+		Thread.sleep(1000);
+		System.out.println("¡Hola! Soy tu asistente virtual :) ");
+		Thread.sleep(2000);
+		System.out.println("Estoy aquí para ayudarte y facilitarte la búsqueda");
+		System.out.println("de tus próximas vacaciones.");
+		
+		
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	

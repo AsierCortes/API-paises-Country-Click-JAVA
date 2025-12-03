@@ -21,4 +21,10 @@ public class Lugares {
 		this.informacion = informacion;
 	}
 
+	@Override
+	public String toString() {
+		return "Lugares [informacion=" + informacion + "]";
+	}
+	
+	
 }

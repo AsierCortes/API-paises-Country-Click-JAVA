@@ -271,7 +271,7 @@ public class PaisTraduccion {
 		
 		// Busca si esta en el map
 		if(traduccion.containsKey(paisTraducir)) {
-			System.out.println("Desde traducir pais, devuelvo: " + traduccion.get(paisTraducir));
+//			System.out.println("Desde traducir pais, devuelvo: " + traduccion.get(paisTraducir));
 			// Devuelve el pais traducido
 			return traduccion.get(paisTraducir);
 		}else {

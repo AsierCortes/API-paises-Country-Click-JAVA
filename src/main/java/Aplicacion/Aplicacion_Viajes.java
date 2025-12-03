@@ -24,14 +24,18 @@ public class Aplicacion_Viajes {
 		System.out.println(
 				"Para empezar a buscar tus vacaciones, vamos a buscar información sobre el país al que deseas viajar ✈️.");
 		System.out.println("Por favor, introduce el nombre del país que deseas buscar:");
-
+		
+		esperaAleatoria();
+		
 		Info_Pais paisBuscado = null;
 
-		// El bucle se repite mientras la variable siga vacía (null)
+		// El bucle se repite mientras paisBuscado siga vacía (null)
 		while (paisBuscado == null) {
 			System.out.print(">> ");
 			String paisIntroducir = sc.nextLine();
-
+			
+			esperaAleatoria();
+			
 			// 1. Comprobamos si ha escrito algo válido (no está vacío)
 			if (!paisIntroducir.trim().isEmpty()) {
 				try {
@@ -41,7 +45,9 @@ public class Aplicacion_Viajes {
 					// 2. Si ha buscado pero devuelve null, avisamos del error
 					if (paisBuscado == null) {
 						System.out.println("❌ No he encontrado información sobre '" + paisIntroducir + "'.");
+						esperaAleatoria();
 						System.out.println("Puede que esté mal escrito. Inténtalo de nuevo:");
+						esperaAleatoria();
 					}
 
 				} catch (InputMismatchException e) {
@@ -60,15 +66,16 @@ public class Aplicacion_Viajes {
 			}
 		}
 		System.out.println(" ");
-		// Al salir del while, garantizamos que paisBuscado tiene datos
+		
+		// Nos aseguramos que tiene datos
 		System.out.println(
 				"✅ ¡Destino localizado! Cargando datos de " + paisBuscado.getNombre().getNombreComun() + "...");
+				esperaAleatoria();
 
-		// ==============================================
+				
 		// MOSTRAR INFO:
 
-		// 1. LÓGICA DE CLASIFICACIÓN (Lo que pediste)
-		// 1. LÓGICA DE CLASIFICACIÓN
+		// POBLACION -> Mensaje de cantidad
 		String tamanoPoblacion;
 		int habitantes = paisBuscado.getPoblacion();
 
@@ -82,7 +89,7 @@ public class Aplicacion_Viajes {
 			tamanoPoblacion = "Población pequeña (Tranquilo)";
 		}
 
-		// 2. PREPARACIÓN DE DATOS (Para quitar corchetes y poner puntos de miles)
+		// 2. Preparar los datos (Para quitar corchetes y poner puntos de miles)
 		String idiomasLimpios = String.join(", ", paisBuscado.getLenguajes().values());
 		String pobFormat = String.format("%,d", habitantes);
 
@@ -118,22 +125,27 @@ public class Aplicacion_Viajes {
 		while (!opcionValida) {
 			System.out.print(">> ");
 			String decision = sc.nextLine();
-
+			
+			esperaAleatoria();
 			if (decision.equalsIgnoreCase("si")) {
 
 				buscador.aniadirFavoritos(paisBuscado);
 
 				System.out.println("Se va a proceder a mostrar los paises que tienes guardados en favoritos...");
+				
+				esperaAleatoria();
+
 				mostrarPaisesFavoritos(paisesFavoritos, traductor);
 				System.out.println("Llevas buscados los siguientes paises");
 				mostrarHistorial(paisesHistorial, traductor);
 
-				// Marcamos como válida para salir del bucle
+				// Marcamos la variable opcion válida para salir del bucle
 				opcionValida = true;
 
 			} else if (decision.equalsIgnoreCase("no")) {
 				System.out.println("❌ No se ha guardado " + paisBuscado.getNombre() + " en favoritos");
 				System.out.println("Se va a proceder a mostrar el historial de paises buscados.");
+				esperaAleatoria();
 				mostrarHistorial(paisesHistorial, traductor);
 
 				// Marcamos como válida para salir del bucle
@@ -156,28 +168,37 @@ public class Aplicacion_Viajes {
 				+ " usa la siguiente moneda: ");
 		System.out.println(paisBuscado.getNombreMoneda() + " -> " + paisBuscado.getSimboloMoneda());
 
-		// Variable interruptor para controlar el bucle
+		// Variable para comprobar si el cambio se ha realizado
 		boolean cambioRealizado = false;
 
 		while (!cambioRealizado) {
 			System.out.println("🪙 Introduce tu moneda actual: (Ejemplo: Soy de España, pues el \"euro\")");
 			System.out.print(">> ");
 			String monedaLocal = sc.nextLine();
+			
+			esperaAleatoria();
 
 			System.out.println("🪙 Introduce tu moneda a la que deseas realizar el cambio: ");
 			System.out.print(">> ");
 			String monedaDestino = sc.nextLine();
-
+			
+			esperaAleatoria();
+			
 			System.out.println("💵 Introduce la cantidad de dinero: ");
 			System.out.print(">> ");
 
-			// Usamos parseDouble con nextLine para evitar saltos de línea erróneos al
-			// repetir el bucle
+			esperaAleatoria();
+
+			
 			double cantidadDinero = 0;
 			try {
-				cantidadDinero = Double.parseDouble(sc.nextLine());
-			} catch (NumberFormatException e) {
-				System.out.println("⚠️ Debes introducir un número válido.");
+				cantidadDinero = sc.nextDouble();
+				sc.nextLine();
+			}catch (InputMismatchException e) {
+				System.err.println("⚠️ Debes introducir un número válido.");
+			} 
+			catch (NumberFormatException e) {
+				System.err.println("⚠️ Debes introducir un número válido.");
 			}
 
 			// Intentamos la conversión
@@ -189,14 +210,17 @@ public class Aplicacion_Viajes {
 				System.out.println("🔄 Por favor, vuelve a introducir los datos correctamente.\n");
 				System.out.println("ℹ️ Por si has escrito mal el nombre de la moneda, te dejo por aqui los códigos");
 				System.out.println(" ");
+				
+				esperaAleatoria();
+
 				validadorMoneda.getTodosLosCodigosMoneda();
 			} else {
-				// CASO DE ÉXITO: Mostramos resultado y activamos el interruptor para salir
+				// CASO DE ÉXITO: Mostramos resultado y ponemos a true el cambio realizado
 				System.out.println("✅ Se ha realizado correctamente el cambio");
 				System.err.println(
 						cantidadDinero + " " + monedaLocal + " = " + resultadoConversion + " " + monedaDestino);
 
-				cambioRealizado = true; // Esto hará que el while termine limpiamente
+				cambioRealizado = true; // Esto hará que el while termine 
 			}
 		}
 
@@ -204,15 +228,23 @@ public class Aplicacion_Viajes {
 		System.out.println("\n------------------------------------------------");
 		System.out.println(" 🔍  BUSCAR LOCALIZACIONES EN LA CAPITAL");
 		System.out.println("------------------------------------------------");
+		
+		esperaAleatoria();
 
 		System.out.println("Esta es la parte DIVERTIDA del viaje. Vamos a buscar lugares ");
 		System.out.println("que visitar");
+		
+		esperaAleatoria();
 
 		System.out.println("Tenemos los siguientes lugares disponibles: \n");
+		
+		esperaAleatoria();
 
 		// --- SECCIÓN TRANSPORTE ---
 		System.out.println("   ✈️  TRANSPORTE");
 		System.out.println("       • 1. Aeropuertos cercanos");
+		
+		esperaAleatoria();
 
 		// --- SECCIÓN COMPRAS ---
 		System.out.println("\n   🛍️  CENTROS COMERCIALES Y TIENDAS");
@@ -220,6 +252,8 @@ public class Aplicacion_Viajes {
 		System.out.println("       • 3. Tiendas de comida y alimentación");
 		System.out.println("       • 4. Farmacias");
 		System.out.println("       • 5. Mercadillos");
+
+		esperaAleatoria();
 
 		// --- SECCIÓN RESTAURANTES ---
 		System.out.println("\n   🍽️  RESTAURANTES Y COMIDA");
@@ -234,6 +268,8 @@ public class Aplicacion_Viajes {
 		System.out.println("       • 12. Restaurante Brasileño");
 		System.out.println("       • 13. Restaurante Japonés");
 
+		esperaAleatoria();
+
 		// --- SECCIÓN SALUD ---
 		System.out.println("\n   🏥  EMERGENCIAS Y SALUD");
 		System.out.println("       • 14. Ambulancias");
@@ -241,6 +277,8 @@ public class Aplicacion_Viajes {
 		System.out.println("       • 16. Entradas de urgencias");
 		System.out.println("       • 17. Podólogos");
 		System.out.println("       • 18. Oculistas");
+
+		esperaAleatoria();
 
 		// --- SECCIÓN ENTRETENIMIENTO ---
 		System.out.println("\n   🎭  ENTRETENIMIENTO Y CULTURA");
@@ -256,6 +294,8 @@ public class Aplicacion_Viajes {
 		System.out.println("       • 27. Parque acuático");
 
 		System.out.println("\n------------------------------------------------");
+
+		esperaAleatoria();
 
 		System.out.println("Se va a buscar estos lugares en " + paisBuscado.getCapital() + ". Coordenadas -> ");
 		System.out.println("- Longuitud: " + paisBuscado.getLongitudCapital());
@@ -274,8 +314,12 @@ public class Aplicacion_Viajes {
 
 		// SELECCIÓN CATEGORIA
 		System.out.println("Selecciona una categoria que desees buscar: ");
+		System.out.print(">> ");
+		
 		int categoriaSeleccionada = sc.nextInt();
 		sc.nextLine();
+		
+		esperaAleatoria();
 		System.out.println(" ");
 
 		String resultadoCategoriaElegida = elegirCategoria(categoriaSeleccionada);
@@ -290,8 +334,12 @@ public class Aplicacion_Viajes {
 
 		// Radio de busqueda
 		System.out.println("Introduce el radio de búsqueda: (km2) MIN 1km2 MAX 10km2");
+		System.out.print(">> ");
 		int limiteRadioBusqueda = sc.nextInt();
 		sc.nextLine();
+		
+		esperaAleatoria();
+		
 		System.out.println(" ");
 
 		StringBuilder radioConvertirm2 = new StringBuilder(String.valueOf(limiteRadioBusqueda));
@@ -309,7 +357,11 @@ public class Aplicacion_Viajes {
 
 		System.out.println("Introduce la cantidad de resultados que deseas: ");
 		// CANTIDAD RESULTADOS
+		System.out.print(">> ");		
 		int cantidadResultados = sc.nextInt();
+		
+		esperaAleatoria();
+		
 		sc.nextLine();
 
 		System.out.println(" ");
@@ -338,7 +390,7 @@ public class Aplicacion_Viajes {
 		}
 
 		System.out.println(" ");
-
+		
 		System.out.println("\n══════════════════════════════════════════════════════");
 		System.out.println(" 📍 RESULTADOS DE LA BÚSQUEDA");
 		System.out.println("══════════════════════════════════════════════════════");
@@ -349,11 +401,12 @@ public class Aplicacion_Viajes {
 			int contadorLugares = 1;
 
 			for (Lugares lugarActual : resultadoLugares) {
-				System.out.println("---------------------------------------------------------");
-				// Imprimimos el número del lugar
+				esperaAleatoria();
+				System.out.println("------------------------------------------------------------------------------------------------------------------");
+				// Numero del lugar
 				System.out.println("   #" + contadorLugares);
 
-				// Aseguramos que 'informacion' no sea null para evitar errores
+				// Aseguramos que  no sea null para evitar errores
 				if (lugarActual.getInformacion() != null) {
 
 					// NOMBRE
@@ -381,11 +434,45 @@ public class Aplicacion_Viajes {
 					}
 				}
 
-				System.out.println(); // Espacio al final
+				System.out.println(""); 
 				contadorLugares++;
 			}
 		}
 		System.out.println("══════════════════════════════════════════════════════\n");
+		
+		System.out.println(" Se va a guardar todo el historial de paises, las conversiones realizadas y los lugares buscados");
+		System.out.println("Introduce una ruta específica donde desees guardar esta información: ");
+		System.out.print(">> ");
+		String pathAbsoluto = sc.nextLine();
+		
+		System.out.println(buscador.guardarInfoFicheroSerializar(pathAbsoluto)); 
+		
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+
+		
+		// DESPEDIDA
+		System.out.println("\n\n"); 
+		System.out.println("══════════════════════════════════════════════════════");
+		System.out.println(" ✈️  FIN DE LA SESIÓN");
+		System.out.println("══════════════════════════════════════════════════════");
+		System.out.println("   ¡Esperamos que toda esta información te sea muy útil");
+		System.out.println("   para planificar tu aventura!");
+		System.out.println("");
+		System.out.println("   📝 Recuerda: Revisa tu pasaporte y prepara las maletas.");
+		System.out.println("");
+		System.out.println("          ✨ ¡BUEN VIAJE Y DISFRUTA! ✨");
+		System.out.println("");
+		System.out.println("   👋 Gracias por usar nuestra Agencia Virtual.");
+		System.out.println("══════════════════════════════════════════════════════");
+
+		System.out.println("");
+		System.out.println("");
+		System.out.println("");
+
+		sc.close();
+		
 	}
 
 	static String elegirCategoria(int opcion) {
@@ -498,11 +585,16 @@ public class Aplicacion_Viajes {
 	static void mostrarPaisesFavoritos(Set<Info_Pais> paisesFavoritos, PaisTraduccion traduccion) {
 		System.out.println(" ");
 		System.out.println("Paises guardados en favoritos: ");
+		
+		esperaAleatoria();
 
 		int contador = 1;
 		for (Info_Pais infoPais : paisesFavoritos) {
 			System.out.println(contador + ". " + infoPais.getNombre().getNombreComun());
 			contador++;
+			
+			esperaAleatoria();
+
 		}
 		System.out.println(" ");
 	}
@@ -510,11 +602,17 @@ public class Aplicacion_Viajes {
 	static void mostrarHistorial(Set<Info_Pais> paisesHistorial, PaisTraduccion traduccion) {
 		System.out.println(" ");
 		System.out.println("Historial de paises buscados: ");
+		
+		esperaAleatoria();
+
 
 		int contador = 1;
 		for (Info_Pais infoPais : paisesHistorial) {
 			System.out.println(contador + ". " + infoPais.getNombre().getNombreComun());
 			contador++;
+			
+			esperaAleatoria();
+
 		}
 		System.out.println(" ");
 	}
@@ -529,19 +627,19 @@ public class Aplicacion_Viajes {
 			System.out.println("--------------------------------------------------------");
 			System.out.println("APLICACIÓN CARGADA: Asistente de Viajes");
 
-//			esperaAleatoria();
+			esperaAleatoria();
 			System.out.println("¡Hola! Soy tu asistente virtual :) ");
-//			esperaAleatoria();
+			esperaAleatoria();
 			System.out.println("Estoy aquí para ayudarte y facilitarte la búsqueda de tus próximas vacaciones.");
-//			esperaAleatoria();
+			esperaAleatoria();
 			System.out.println("En este chat vamos a ver:");
-//			esperaAleatoria();
+			esperaAleatoria();
 			System.out.println("   1. ℹ️  Información detallada del país.");
-//			Thread.sleep(500);
+			Thread.sleep(500);
 			System.out.println("   2. 💱  Cálculo y cambio de divisas.");
-//			Thread.sleep(700);
+			Thread.sleep(700);
 			System.out.println("   3. 📍  Buscador de sitios: Restaurantes, cines, hoteles...");
-//			esperaAleatoria();
+			esperaAleatoria();
 			System.out.println("");
 			System.out.println("Vamos a empezar!!!");
 		} catch (InterruptedException e) {
@@ -552,7 +650,7 @@ public class Aplicacion_Viajes {
 	public static void esperaAleatoria() {
 		try {
 			long min = 750;
-			long max = 3000;
+			long max = 2000;
 
 			long tiempoEspera = (long) (Math.random() * (max - min) + min);
 

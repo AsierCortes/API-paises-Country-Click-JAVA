@@ -16,7 +16,6 @@ public class Aplicacion_Viajes {
 	public static void main(String[] args) {
 		Buscador buscador = new Buscador();
 		Scanner sc = new Scanner(System.in);
-		// Instanciamos tu validador
 		CodigosValidosMonedas validadorMoneda = new CodigosValidosMonedas();
 		PaisTraduccion traductor = new PaisTraduccion();
 		saludar();
@@ -24,19 +23,19 @@ public class Aplicacion_Viajes {
 		System.out.println(
 				"Para empezar a buscar tus vacaciones, vamos a buscar información sobre el país al que deseas viajar ✈️.");
 		System.out.println("Por favor, introduce el nombre del país que deseas buscar:");
-		
+
 		esperaAleatoria();
-		
+
 		Info_Pais paisBuscado = null;
 
 		// El bucle se repite mientras paisBuscado siga vacía (null)
 		while (paisBuscado == null) {
 			System.out.print(">> ");
 			String paisIntroducir = sc.nextLine();
-			
+
 			esperaAleatoria();
-			
-			// 1. Comprobamos si ha escrito algo válido (no está vacío)
+
+			// 1. Comprobamos si ha escrito algo válido, es decir, no esta vacio
 			if (!paisIntroducir.trim().isEmpty()) {
 				try {
 					// Intentamos buscar
@@ -60,19 +59,18 @@ public class Aplicacion_Viajes {
 				}
 
 			} else {
-				// 3. Si el usuario dio a Enter sin escribir nada
+				// 3. Comprobamos espacios vacios
 				System.out.println("⚠️ Por favor, escribe un nombre antes de pulsar Enter.");
 				System.out.println(" ");
 			}
 		}
 		System.out.println(" ");
-		
+
 		// Nos aseguramos que tiene datos
 		System.out.println(
 				"✅ ¡Destino localizado! Cargando datos de " + paisBuscado.getNombre().getNombreComun() + "...");
-				esperaAleatoria();
+		esperaAleatoria();
 
-				
 		// MOSTRAR INFO:
 
 		// POBLACION -> Mensaje de cantidad
@@ -93,7 +91,7 @@ public class Aplicacion_Viajes {
 		String idiomasLimpios = String.join(", ", paisBuscado.getLenguajes().values());
 		String pobFormat = String.format("%,d", habitantes);
 
-		// 3. IMPRESIÓN LIMPIA
+		// 3. INFORMACIÓN PAISES
 		System.out.println("\n✈️   DESTINO SELECCIONADO: " + paisBuscado.getNombre().getNombreComun().toUpperCase());
 		System.out.println(
 				"──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────");
@@ -125,14 +123,14 @@ public class Aplicacion_Viajes {
 		while (!opcionValida) {
 			System.out.print(">> ");
 			String decision = sc.nextLine();
-			
+
 			esperaAleatoria();
 			if (decision.equalsIgnoreCase("si")) {
 
 				buscador.aniadirFavoritos(paisBuscado);
 
 				System.out.println("Se va a proceder a mostrar los paises que tienes guardados en favoritos...");
-				
+
 				esperaAleatoria();
 
 				mostrarPaisesFavoritos(paisesFavoritos, traductor);
@@ -175,29 +173,27 @@ public class Aplicacion_Viajes {
 			System.out.println("🪙 Introduce tu moneda actual: (Ejemplo: Soy de España, pues el \"euro\")");
 			System.out.print(">> ");
 			String monedaLocal = sc.nextLine();
-			
+
 			esperaAleatoria();
 
 			System.out.println("🪙 Introduce tu moneda a la que deseas realizar el cambio: ");
 			System.out.print(">> ");
 			String monedaDestino = sc.nextLine();
-			
+
 			esperaAleatoria();
-			
+
 			System.out.println("💵 Introduce la cantidad de dinero: ");
 			System.out.print(">> ");
 
 			esperaAleatoria();
 
-			
 			double cantidadDinero = 0;
 			try {
 				cantidadDinero = sc.nextDouble();
 				sc.nextLine();
-			}catch (InputMismatchException e) {
+			} catch (InputMismatchException e) {
 				System.err.println("⚠️ Debes introducir un número válido.");
-			} 
-			catch (NumberFormatException e) {
+			} catch (NumberFormatException e) {
 				System.err.println("⚠️ Debes introducir un número válido.");
 			}
 
@@ -210,17 +206,17 @@ public class Aplicacion_Viajes {
 				System.out.println("🔄 Por favor, vuelve a introducir los datos correctamente.\n");
 				System.out.println("ℹ️ Por si has escrito mal el nombre de la moneda, te dejo por aqui los códigos");
 				System.out.println(" ");
-				
+
 				esperaAleatoria();
 
 				validadorMoneda.getTodosLosCodigosMoneda();
 			} else {
-				// CASO DE ÉXITO: Mostramos resultado y ponemos a true el cambio realizado
+				// Si esta bien
 				System.out.println("✅ Se ha realizado correctamente el cambio");
 				System.err.println(
 						cantidadDinero + " " + monedaLocal + " = " + resultadoConversion + " " + monedaDestino);
-
-				cambioRealizado = true; // Esto hará que el while termine 
+				// Esto hará que el while termine
+				cambioRealizado = true;
 			}
 		}
 
@@ -228,25 +224,25 @@ public class Aplicacion_Viajes {
 		System.out.println("\n------------------------------------------------");
 		System.out.println(" 🔍  BUSCAR LOCALIZACIONES EN LA CAPITAL");
 		System.out.println("------------------------------------------------");
-		
+
 		esperaAleatoria();
 
 		System.out.println("Esta es la parte DIVERTIDA del viaje. Vamos a buscar lugares ");
 		System.out.println("que visitar");
-		
+
 		esperaAleatoria();
 
 		System.out.println("Tenemos los siguientes lugares disponibles: \n");
-		
+
 		esperaAleatoria();
 
-		// --- SECCIÓN TRANSPORTE ---
+		// TRANSPORTE
 		System.out.println("   ✈️  TRANSPORTE");
 		System.out.println("       • 1. Aeropuertos cercanos");
-		
+
 		esperaAleatoria();
 
-		// --- SECCIÓN COMPRAS ---
+		// COMPRAS
 		System.out.println("\n   🛍️  CENTROS COMERCIALES Y TIENDAS");
 		System.out.println("       • 2. Tiendas de ropa");
 		System.out.println("       • 3. Tiendas de comida y alimentación");
@@ -255,7 +251,7 @@ public class Aplicacion_Viajes {
 
 		esperaAleatoria();
 
-		// --- SECCIÓN RESTAURANTES ---
+		// RESTAURANTES
 		System.out.println("\n   🍽️  RESTAURANTES Y COMIDA");
 		System.out.println("       [Comida Rápida]");
 		System.out.println("       • 6. Comida rápida general");
@@ -270,7 +266,7 @@ public class Aplicacion_Viajes {
 
 		esperaAleatoria();
 
-		// --- SECCIÓN SALUD ---
+		// SALUD
 		System.out.println("\n   🏥  EMERGENCIAS Y SALUD");
 		System.out.println("       • 14. Ambulancias");
 		System.out.println("       • 15. Hospitales");
@@ -280,7 +276,7 @@ public class Aplicacion_Viajes {
 
 		esperaAleatoria();
 
-		// --- SECCIÓN ENTRETENIMIENTO ---
+		// ENTRETENIMIENTO
 		System.out.println("\n   🎭  ENTRETENIMIENTO Y CULTURA");
 		System.out.println("       • 19. Cine");
 		System.out.println("       • 20. Cultura");
@@ -315,10 +311,10 @@ public class Aplicacion_Viajes {
 		// SELECCIÓN CATEGORIA
 		System.out.println("Selecciona una categoria que desees buscar: ");
 		System.out.print(">> ");
-		
+
 		int categoriaSeleccionada = sc.nextInt();
 		sc.nextLine();
-		
+
 		esperaAleatoria();
 		System.out.println(" ");
 
@@ -337,9 +333,9 @@ public class Aplicacion_Viajes {
 		System.out.print(">> ");
 		int limiteRadioBusqueda = sc.nextInt();
 		sc.nextLine();
-		
+
 		esperaAleatoria();
-		
+
 		System.out.println(" ");
 
 		StringBuilder radioConvertirm2 = new StringBuilder(String.valueOf(limiteRadioBusqueda));
@@ -357,11 +353,11 @@ public class Aplicacion_Viajes {
 
 		System.out.println("Introduce la cantidad de resultados que deseas: ");
 		// CANTIDAD RESULTADOS
-		System.out.print(">> ");		
+		System.out.print(">> ");
 		int cantidadResultados = sc.nextInt();
-		
+
 		esperaAleatoria();
-		
+
 		sc.nextLine();
 
 		System.out.println(" ");
@@ -390,7 +386,7 @@ public class Aplicacion_Viajes {
 		}
 
 		System.out.println(" ");
-		
+
 		System.out.println("\n══════════════════════════════════════════════════════");
 		System.out.println(" 📍 RESULTADOS DE LA BÚSQUEDA");
 		System.out.println("══════════════════════════════════════════════════════");
@@ -402,11 +398,12 @@ public class Aplicacion_Viajes {
 
 			for (Lugares lugarActual : resultadoLugares) {
 				esperaAleatoria();
-				System.out.println("------------------------------------------------------------------------------------------------------------------");
+				System.out.println(
+						"------------------------------------------------------------------------------------------------------------------");
 				// Numero del lugar
 				System.out.println("   #" + contadorLugares);
 
-				// Aseguramos que  no sea null para evitar errores
+				// Aseguramos que no sea null para evitar errores
 				if (lugarActual.getInformacion() != null) {
 
 					// NOMBRE
@@ -434,26 +431,26 @@ public class Aplicacion_Viajes {
 					}
 				}
 
-				System.out.println(""); 
+				System.out.println("");
 				contadorLugares++;
 			}
 		}
 		System.out.println("══════════════════════════════════════════════════════\n");
-		
-		System.out.println(" Se va a guardar todo el historial de paises, las conversiones realizadas y los lugares buscados");
+
+		System.out.println(
+				" Se va a guardar todo el historial de paises, las conversiones realizadas y los lugares buscados");
 		System.out.println("Introduce una ruta específica donde desees guardar esta información: ");
 		System.out.print(">> ");
 		String pathAbsoluto = sc.nextLine();
-		
-		System.out.println(buscador.guardarInfoFicheroSerializar(pathAbsoluto)); 
-		
+
+		System.out.println(buscador.guardarInfoFicheroSerializar(pathAbsoluto));
+
 		System.out.println("");
 		System.out.println("");
 		System.out.println("");
 
-		
 		// DESPEDIDA
-		System.out.println("\n\n"); 
+		System.out.println("\n\n");
 		System.out.println("══════════════════════════════════════════════════════");
 		System.out.println(" ✈️  FIN DE LA SESIÓN");
 		System.out.println("══════════════════════════════════════════════════════");
@@ -472,18 +469,15 @@ public class Aplicacion_Viajes {
 		System.out.println("");
 
 		sc.close();
-		
+
 	}
 
 	static String elegirCategoria(int opcion) {
 		String categoriaAPI = null;
 		switch (opcion) {
-		// --- TRANSPORTE ---
 		case 1:
 			categoriaAPI = "airport";
 			break;
-
-		// --- COMPRAS ---
 		case 2:
 			categoriaAPI = "commercial.clothing";
 			break;
@@ -496,8 +490,6 @@ public class Aplicacion_Viajes {
 		case 5:
 			categoriaAPI = "commercial.marketplace";
 			break;
-
-		// --- RESTAURANTES ---
 		case 6:
 			categoriaAPI = "catering.fast_food";
 			break;
@@ -522,8 +514,6 @@ public class Aplicacion_Viajes {
 		case 13:
 			categoriaAPI = "catering.restaurant.japanese";
 			break;
-
-		// --- SALUD ---
 		case 14:
 			categoriaAPI = "emergency.ambulance_station";
 			break;
@@ -539,8 +529,6 @@ public class Aplicacion_Viajes {
 		case 18:
 			categoriaAPI = "healthcare.optometrist";
 			break;
-
-		// --- ENTRETENIMIENTO ---
 		case 19:
 			categoriaAPI = "entertainment.cinema";
 			break;
@@ -585,14 +573,14 @@ public class Aplicacion_Viajes {
 	static void mostrarPaisesFavoritos(Set<Info_Pais> paisesFavoritos, PaisTraduccion traduccion) {
 		System.out.println(" ");
 		System.out.println("Paises guardados en favoritos: ");
-		
+
 		esperaAleatoria();
 
 		int contador = 1;
 		for (Info_Pais infoPais : paisesFavoritos) {
 			System.out.println(contador + ". " + infoPais.getNombre().getNombreComun());
 			contador++;
-			
+
 			esperaAleatoria();
 
 		}
@@ -602,15 +590,14 @@ public class Aplicacion_Viajes {
 	static void mostrarHistorial(Set<Info_Pais> paisesHistorial, PaisTraduccion traduccion) {
 		System.out.println(" ");
 		System.out.println("Historial de paises buscados: ");
-		
-		esperaAleatoria();
 
+		esperaAleatoria();
 
 		int contador = 1;
 		for (Info_Pais infoPais : paisesHistorial) {
 			System.out.println(contador + ". " + infoPais.getNombre().getNombreComun());
 			contador++;
-			
+
 			esperaAleatoria();
 
 		}

@@ -73,7 +73,6 @@ devolverCodigoMoneda() -> Recibe el nombre de la moneda, y si esta existe devuel
 
 ---------------------------------------------------------------------------------------------
 ApiExchange
-key: b14440c452c066c853a3b051
 
 Moneda y valor en otros precios 
 -> https://v6.exchangerate-api.com/v6/b14440c452c066c853a3b051/latest/ USD
@@ -90,7 +89,6 @@ Ver cuantas solicitudes nos queda
 ----------------------------------------------------------------------------------------------
 
 GeoApify
-key: 4efa5b9378404e32ba072c042705e870
 
 Buscar gimnasios en las rozas:
 Ej -> https://api.geoapify.com/v2/places?categories=entertainment.cinema&bias.proximity:40.49084841629886,-3.8741767905296456&limit=20&apiKey=4efa5b9378404e32ba072c042705e870

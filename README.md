@@ -37,43 +37,64 @@ El núcleo de la aplicación se basa en la integración de tres servicios extern
 
 ---
 
+## 📂 Estructura del Proyecto
+
+A continuación se muestra la organización interna de los paquetes y clases del código fuente:
+
+<br>
+<p align="center">
+  <img width="250" alt="estructura_carpetas" src="https://github.com/user-attachments/assets/30c3d036-51f1-4084-8af3-272c98928e9c" />
+</p>
+<br>
+
+---
+
 ## 📸 Flujo de la Aplicación
 
 A continuación, puedes ver un recorrido visual de cómo funciona el asistente en la terminal:
 
 **1. Inicio de la Aplicación**
-![Inicio de la Aplicación]
-<img width="937" height="353" alt="Explicacion_Aplicacion" src="https://github.com/user-attachments/assets/3cb66101-b8b0-44fa-a641-1ebc56eb2c00" />
+<br>
+<p align="center">
+  <img width="650" alt="Inicio de la Aplicación" src="https://github.com/user-attachments/assets/3cb66101-b8b0-44fa-a641-1ebc56eb2c00" />
+</p>
+<br>
 
 **2. Búsqueda e Información del País**
-<img width="937" height="353" alt="Explicacion_Aplicacion" src="https://github.com/user-attachments/assets/2f777ab2-3de1-4a8d-a0b9-bdef729a2e0c" />
-
+<br>
+<p align="center">
+  <img width="650" alt="Información del País Buscado" src="https://github.com/user-attachments/assets/2f777ab2-3de1-4a8d-a0b9-bdef729a2e0c" />
+</p>
+<br>
 
 **3. Cambio de Divisas**
-![Cambio de Divisas]
-<img width="1023" height="351" alt="cambio divisas" src="https://github.com/user-attachments/assets/f4702977-6cb3-45e4-ab84-71a1683a38ae" />
-
+<br>
+<p align="center">
+  <img width="650" alt="Cambio de Divisas" src="https://github.com/user-attachments/assets/f4702977-6cb3-45e4-ab84-71a1683a38ae" />
+</p>
+<br>
 
 **4. Búsqueda de Lugares en la Capital**
-![Menú de Categorías de Búsqueda]
-<img width="1023" height="351" alt="cambio divisas" src="https://github.com/user-attachments/assets/b1a5affd-9591-40ec-b68b-32f7864ab51a" />
-
-![Resumen de los Parámetros de Búsqueda]
-<img width="730" height="546" alt="resumen busqueda lugares" src="https://github.com/user-attachments/assets/2f554790-e946-4213-9bcb-f29abcd33554" />
-
-![Resultados de los Lugares]
-<img width="1333" height="791" alt="resultado busqueda lugares" src="https://github.com/user-attachments/assets/59629eef-b7aa-419d-a0ba-fc1baa1798ad" />
-
+<br>
+<p align="center">
+  <img width="650" alt="Menú de Categorías de Búsqueda" src="https://github.com/user-attachments/assets/b1a5affd-9591-40ec-b68b-32f7864ab51a" />
+</p>
+<br>
+<p align="center">
+  <img width="500" alt="Resumen de los Parámetros de Búsqueda" src="https://github.com/user-attachments/assets/2f554790-e946-4213-9bcb-f29abcd33554" />
+</p>
+<br>
+<p align="center">
+  <img width="650" alt="Resultados de los Lugares" src="https://github.com/user-attachments/assets/59629eef-b7aa-419d-a0ba-fc1baa1798ad" />
+</p>
+<br>
 
 **5. Fin de la Sesión y Guardado**
-![Fin de la Sesión y Despedida]
-<img width="683" height="332" alt="Despedida" src="https://github.com/user-attachments/assets/1abe3ffd-8416-4b5b-a4cd-d245cdd5a729" />
-
-
-**Estructura del Proyecto:**
-![Estructura de Carpetas del Proyecto]
-<img width="457" height="352" alt="estructura_carpetas" src="https://github.com/user-attachments/assets/30c3d036-51f1-4084-8af3-272c98928e9c" />
-
+<br>
+<p align="center">
+  <img width="500" alt="Fin de la Sesión y Despedida" src="https://github.com/user-attachments/assets/1abe3ffd-8416-4b5b-a4cd-d245cdd5a729" />
+</p>
+<br>
 
 ---
 

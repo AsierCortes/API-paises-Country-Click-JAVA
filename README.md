@@ -42,24 +42,38 @@ El núcleo de la aplicación se basa en la integración de tres servicios extern
 A continuación, puedes ver un recorrido visual de cómo funciona el asistente en la terminal:
 
 **1. Inicio de la Aplicación**
-![Inicio de la Aplicación](<img width="937" height="353" alt="Explicacion_Aplicacion" src="https://github.com/user-attachments/assets/cb978f83-d415-4f1a-889b-f66699c217e1" />)
+![Inicio de la Aplicación]
+<img width="937" height="353" alt="Explicacion_Aplicacion" src="https://github.com/user-attachments/assets/3cb66101-b8b0-44fa-a641-1ebc56eb2c00" />
 
 **2. Búsqueda e Información del País**
-![Información del País Buscado](InfoPaisBuscado.png)
+<img width="937" height="353" alt="Explicacion_Aplicacion" src="https://github.com/user-attachments/assets/2f777ab2-3de1-4a8d-a0b9-bdef729a2e0c" />
+
 
 **3. Cambio de Divisas**
-![Cambio de Divisas](cambio%20divisas.png)
+![Cambio de Divisas]
+<img width="1023" height="351" alt="cambio divisas" src="https://github.com/user-attachments/assets/f4702977-6cb3-45e4-ab84-71a1683a38ae" />
+
 
 **4. Búsqueda de Lugares en la Capital**
-![Menú de Categorías de Búsqueda](buscarLugarYPlan.png)
-![Resumen de los Parámetros de Búsqueda](resumen%20busqueda%20lugares.png)
-![Resultados de los Lugares](resultado%20busqueda%20lugares.png)
+![Menú de Categorías de Búsqueda]
+<img width="1023" height="351" alt="cambio divisas" src="https://github.com/user-attachments/assets/b1a5affd-9591-40ec-b68b-32f7864ab51a" />
+
+![Resumen de los Parámetros de Búsqueda]
+<img width="730" height="546" alt="resumen busqueda lugares" src="https://github.com/user-attachments/assets/2f554790-e946-4213-9bcb-f29abcd33554" />
+
+![Resultados de los Lugares]
+<img width="1333" height="791" alt="resultado busqueda lugares" src="https://github.com/user-attachments/assets/59629eef-b7aa-419d-a0ba-fc1baa1798ad" />
+
 
 **5. Fin de la Sesión y Guardado**
-![Fin de la Sesión y Despedida](Despedida.png)
+![Fin de la Sesión y Despedida]
+<img width="683" height="332" alt="Despedida" src="https://github.com/user-attachments/assets/1abe3ffd-8416-4b5b-a4cd-d245cdd5a729" />
+
 
 **Estructura del Proyecto:**
-![Estructura de Carpetas del Proyecto](estructura_carpetas.png)
+![Estructura de Carpetas del Proyecto]
+<img width="457" height="352" alt="estructura_carpetas" src="https://github.com/user-attachments/assets/30c3d036-51f1-4084-8af3-272c98928e9c" />
+
 
 ---
 

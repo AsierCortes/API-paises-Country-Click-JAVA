@@ -236,7 +236,7 @@ public class Buscador {
 	 * que son códigos de monedas correctas (a través del map) y realiza la llamada,
 	 * si todo va correcto devuelve el resultado.
 	 * 
-	 * https://v6.exchangerate-api.com/v6/b14440c452c066c853a3b051/pair/EUR/USD/3.24
+	 * https://v6.exchangerate-api.com/v6/APIKEY_EXCHANGE/pair/EUR/USD/3.24
 	 */
 	public double conversionDinero(double dinero, String monedaOrigen, String monedaDestino) {
 		try {
@@ -245,7 +245,7 @@ public class Buscador {
 			// Si se ha encontrado bien el codigo
 			if (codigoOrigen != null && codigoDestino != null) {
 				StringBuilder urlModificada = new StringBuilder(
-						"https://v6.exchangerate-api.com/v6/b14440c452c066c853a3b051/pair/");
+						"https://v6.exchangerate-api.com/v6/APIKEY_EXCHANGE/pair/");
 				urlModificada.append(codigoOrigen + "/");
 				urlModificada.append(codigoDestino + "/");
 				urlModificada.append(String.valueOf(dinero));
@@ -317,7 +317,7 @@ public class Buscador {
 
 			// Añadimos el filtro, longuitud, latitud, km2, cantidad de resultados y apikey
 			urlModificada.append(filtro + longuitud + "," + latitud + "," + delimitador + "&bias=proximity:" + longuitud + "," + latitud + "&limit=" + cantidadResultados 
-					+ "&apiKey=4efa5b9378404e32ba072c042705e870"); // Añadimos el delimitador y cantidad de resultados
+					+ "&apiKey=APIKEY_GEOAPIFY"); // Añadimos el delimitador y cantidad de resultados
 
 			String url = new String(urlModificada);
 //			System.out.println(url);

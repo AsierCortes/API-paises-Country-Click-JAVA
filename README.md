@@ -1,180 +1,70 @@
-APIS Utilizadas:
-- Rest Countries  -> Información sobre paises
-- ExchangeRate Api  -> Cambio de monedas
-- open-meteo -> Ver tiempo en un pais concreto
-- Geoapify -> Ver monumentos, restaurantes etc.
+# ✈️ Asistente de Viajes Virtual
 
-Idea principal: La aplicación va a ser como un asistente que te va ayudar a buscar un pais donde viajar.
+¡Bienvenido al repositorio del **Asistente de Viajes**! 🌍
 
-Funcionalidades:
-1. Introducir el pais al que se desea viajar
-2. Informarte sobre datos de dicho pais.
-       - Capital -> Para saber más o menos donde vas a aterrizar
-       - Moneda
-       - Idioma
-       - Huso horario
-       - Region
-       - Población -> Un método que diga si es considerado una ciudad grande o pequeña dependiendo de la cantidad de habitantes
-       - Paises alrededor, por si quiere visitar alguno cerca
-3. Informarte sobre monumentos, restaurantes etc...
-4. Hacer cambios de monedas  
-5. Ver tiempo y pronósctico de temperaturas
-       - Ver temperatura actual
-       - Ver pronóstico de 1 a 7 días
-       - Ver pronósticos pasado
-       - Ver temperaturas máximas y mínimas de hoy
-       - Ver clima
-       
-------------------------------------------------------------------------------------------------------------------
+Este proyecto es una aplicación de consola desarrollada en Java que actúa como un asistente virtual e interactivo para la planificación de viajes. Su objetivo principal es centralizar y simplificar la investigación de tu próximo destino, evitando que tengas que buscar información dispersa en diferentes sitios web. Desde datos demográficos y geográficos, hasta herramientas financieras y un motor de búsqueda de puntos de interés locales, esta aplicación te ofrece todo lo necesario para organizar tu aventura desde la terminal.
 
+---
 
-Fichero TXT:
+## ✨ Funcionalidades Principales
 
+Nuestra aplicación ofrece una experiencia fluida paso a paso con las siguientes capacidades:
 
-Cosas pendientes: 
-- Dar opción de que introduzca el pais a buscar información				-> HECHO
-	-> opción 1: crear un hashmap con nombre en español y luego traducirlo a ingles -> HECHO
-- Opción de añadir a favoritos								-> HECHO	
-- Opción de serializar el objeto							-> HECHO
-- Opción de guardarlo de un bloc de notas
+* **Radiografía del Destino:** Introduce el nombre de un país y obtén un resumen instantáneo con datos vitales: capital (tu punto de aterrizaje), idioma, huso horario, región y una estimación de la actividad del lugar basada en su volumen de población.
+* **Oficina Virtual de Cambio:** Una calculadora de divisas integrada. Introduce tu moneda local, la moneda de destino y tu presupuesto para obtener el valor convertido al instante y planificar tus gastos.
+* **Explorador de la Capital:** Descubre puntos de interés en la capital del país. Busca en un directorio categorizado que incluye tiendas, transporte, servicios médicos de emergencia y lugares de entretenimiento (zoos, museos, teatros). Tú controlas el radio de búsqueda y la cantidad de resultados.
+* **Gestión de Favoritos e Historial:** Guarda los países que más te gusten en una lista de favoritos y consulta el historial completo de tus búsquedas durante toda la sesión para comparar destinos.
+* **Persistencia de la Planificación:** Al finalizar la sesión, puedes exportar y guardar todo tu historial, lugares buscados y conversiones a un archivo local mediante serialización de objetos, asegurando que tu itinerario quede guardado de forma segura.
 
-Buscador, quiero intentar separar los métodos
+---
 
+## 🛠️ APIs Utilizadas
 
----------------------------------------------------------------------------------------------
+El núcleo de la aplicación se basa en la integración de tres servicios externos que nutren de datos reales al programa:
 
-Métodos
-Buscador:
-BuscarInfoPais() -> Recibe el nombre del país en español, lo traduce a ingles y te devuelve la información
-memoriaCaché -> nombre país (Ingles) | Info_Pais
-añadirFavoritos() -> Añade un pais a una lista los países favoritos	(Pais_Info)
-getPaisesFavoritos() -> Devuelve una la lista de países favoritos (Pais_Info)
-getPaisesHistorial() -> Devuelve una lista de los países que han sido buscados (Pais_Info)
-getConversionesRealizadasHistorial() -> devuelve una lista de las conversiones realizadas (ConversionResultado)
-guardarInfoFicheroSerializar() -> Se recibe una ruta, se crea o se sobreescribe en ese fichero y se guarda la lista Info_Pais (Instancias) IMPORTANTE!! Falta guardar conversión, sitios cercanos y tiempo
-deserializarInfoFichero() -> Falta lo mismo
-conversionDinero() -> recibe dinero, monedaOrigen y monedaDestino, comprueba que son códigos de monedas correctas (a través del map) y realiza la llamada, si todo va correcto devuelve el resultado.
+1.  **[REST Countries API](https://restcountries.com/):** Extrae información exhaustiva del país (coordenadas de la capital, moneda oficial, idiomas, población, etc.). Es la base que da contexto al resto de funcionalidades.
+2.  **[ExchangeRate-API](https://www.exchangerate-api.com/):** Se encarga de procesar el cálculo y la conversión de divisas en base a tasas de cambio actualizadas, proporcionando una herramienta financiera precisa.
+3.  **[Geoapify API](https://www.geoapify.com/):** Utilizada para el motor de búsqueda espacial. Localiza lugares específicos (hospitales, restaurantes, aeropuertos) mediante el uso de coordenadas de latitud y longitud dentro de un radio determinado.
 
+---
 
-Falta:
-verLugares()
+## 💻 Tecnologías y Herramientas
 
+* **Lenguaje:** Java
+* **Peticiones HTTP:** `java.net.http.HttpClient` nativo de Java.
+* **Manejo de JSON:** Librería `Jackson` (`ObjectMapper`, anotaciones `@JsonProperty` y `@JsonIgnoreProperties`) para mapear las respuestas de las APIs a objetos Java.
+* **Estructuras de Datos:** Uso intensivo de `ArrayList`, `HashSet` y `HashMap` para gestionar la caché, historiales y mapeos de códigos.
 
+---
 
+## 📸 Flujo de la Aplicación
 
-PaisTraduccion
-traducirPais() -> TRADUCE el nombre del pais de Español a Ingles. IMPORTANTE lo devuelve en lower case
+A continuación, puedes ver un recorrido visual de cómo funciona el asistente en la terminal:
 
-CodigosValidosMonedas
-devolverCodigoMoneda() -> Recibe el nombre de la moneda, y si esta existe devuelve el codigo de dicha moneda
+**1. Inicio de la Aplicación**
+![Inicio de la Aplicación](<img width="937" height="353" alt="Explicacion_Aplicacion" src="https://github.com/user-attachments/assets/cb978f83-d415-4f1a-889b-f66699c217e1" />)
 
+**2. Búsqueda e Información del País**
+![Información del País Buscado](InfoPaisBuscado.png)
 
+**3. Cambio de Divisas**
+![Cambio de Divisas](cambio%20divisas.png)
 
+**4. Búsqueda de Lugares en la Capital**
+![Menú de Categorías de Búsqueda](buscarLugarYPlan.png)
+![Resumen de los Parámetros de Búsqueda](resumen%20busqueda%20lugares.png)
+![Resultados de los Lugares](resultado%20busqueda%20lugares.png)
 
----------------------------------------------------------------------------------------------
-ApiExchange
+**5. Fin de la Sesión y Guardado**
+![Fin de la Sesión y Despedida](Despedida.png)
 
-Moneda y valor en otros precios 
--> https://v6.exchangerate-api.com/v6/b14440c452c066c853a3b051/latest/ USD
+**Estructura del Proyecto:**
+![Estructura de Carpetas del Proyecto](estructura_carpetas.png)
 
-Moneda y valor en un país en específico  (se basa en 1U -> 1 dólar a tal, 1 euro a tal) 
--> https://v6.exchangerate-api.com/v6/b14440c452c066c853a3b051/pair/EUR/USD
+---
 
-Moneda y cambio en un país en concreto 
--> https://v6.exchangerate-api.com/v6/b14440c452c066c853a3b051/pair/EUR/USD/3.24
+## ⚠️ Nota Importante sobre Configuración
 
-Ver cuantas solicitudes nos queda
--> https://v6.exchangerate-api.com/v6/b14440c452c066c853a3b051/quota
-
-----------------------------------------------------------------------------------------------
-
-GeoApify
-
-Buscar gimnasios en las rozas:
-Ej -> https://api.geoapify.com/v2/places?categories=entertainment.cinema&bias.proximity:40.49084841629886,-3.8741767905296456&limit=20&apiKey=4efa5b9378404e32ba072c042705e870
-Obligatorio: Clave API y una categoría
-
-Usuario elije capital
-Usuario elije distancia max km2
-
-Buscar aeropuertos cercanos	-> airport
-Buscar centros comerciales
-	- Buscar centros comerciales de ropa -> commercial.clothing
-	- Buscar tiendas de comida y alimentación -> commercial.food_and_drink
-	- Buscar farmacias ->	commercial.health_and_beauty.pharmacy
-	- Buscar mercadillos -> commercial.marketplace
-
-Restaurantes
-	- Restaurante Comida rápida -> catering.fast_food
-	- Restaurante Kebab ->	catering.fast_food.kebab
-	- Restaurante Pizzas -> catering.fast_food.pizza
-	- Restaurantes tacos -> catering.fast_food.tacos
-	- Restaurantes por lugares:
-		- Restaurante argentino -> catering.restaurant.argentinian
-		- Restaurante asiatico -> catering.restaurant.asian
-		- Restaurante brasileño -> catering.restaurant.brazilian
-		- Restaurante Japones -> catering.restaurant.japanese
-
-Emergencias / Salud
-	- Ambulancias -> emergency.ambulance_station
-	- Hospitales -> healthcare.hospital
-	- Entradas urgencias -> emergency.emergency_ward_entrance
-	- Podólogos -> healthcare.podiatrist
-	- Oculistas -> healthcare.optometrist
-Entretenimiento
-	- Cine -> entertainment.cinema
-	- Cultura -> entertainment.culture
-	- Teatros -> entertainment.culture.theatre
-	- Museos -> entertainment.museum
-	- Planetarios -> entertainment.planetarium
-	- Zoo -> entertainment.zoo
-	- Aquario -> entertainment.aquarium
-
-	- Parques de atracciones:
-		- Parque de atracciones -> entertainment.theme_park
-		- Parque acuático ->	entertainment.water_park
-
-	
-	
-------------------------------------------------------------------------------------------------
-Presentación:
-- De que iba el proyecto anterior
-- Contar las tecnologías que usamos
-- El programa que pasa si no hay wifi
-
-
-
-
-Power point
-1. Idea Principal y app anterior  ------> Bien lo unico foto chatbot
-2. Funcionalidad --> EJEMPLO consola
-3. Apis Usadas -> Nombras cada api. una foto de la propia foto del logo rest country.
-	3.1 RestCountry
-   	-> Foto de la esctructura json y
-   	-> Clases para leer el json
-   	-> Métodos más importantes -> Buscar infoPais()
-
-   3.2 Exchange Rate api
-   -> Foto de la esctructura json y
-   -> Clases para leer el json
-   -> Métodos mas importantes : conversionDInerio()
-
-   3.3 GeoApify
-   -> Foto de la esctructura json y
-   -> Clases para leer el json
-   -> Métodos imporatnesd: buscarlugarinfo()
-   -> Información (filtrar, categorias, delimitadores, que funciona por coordanas)
-
-4. Expiicar una llamada de cualquier api
-5. Métodos extra
-	5.1 SerializarFIchero
-   	5.2 Deserailizar
-	5.3 Ver paises favoritos
-   	Fotos y explicar objetivo de cada método -> foto consola
-
-6. Excepciones
-   6.1 InputMismatch
-   6.2 Si desconectas que no de error
-
-7. DEMO
-8. FIN
+> **Advertencia de Seguridad:** Este repositorio requiere el uso de claves API (API Keys) válidas para **ExchangeRate-API** y **Geoapify API**. Por motivos de seguridad, las claves privadas no deben subirse al repositorio público.
+> 
+> Para ejecutar este proyecto localmente, asegúrate de registrarte en los servicios mencionados, obtener tus propias API Keys y configurarlas correctamente en la clase `Buscador.java`.

@@ -63,7 +63,7 @@ A continuación, puedes ver un recorrido visual de cómo funciona el asistente e
 **2. Búsqueda e Información del País**
 <br>
 <p align="center">
-  <img width="650" alt="Información del País Buscado" src="https://github.com/user-attachments/assets/2f777ab2-3de1-4a8d-a0b9-bdef729a2e0c" />
+  <img width="650" alt="Información del País Buscado" src="https://github.com/user-attachments/assets/cfb54fc8-dd17-4d4e-ab95-ba4cc2b215fb" />
 </p>
 <br>
 
@@ -77,15 +77,17 @@ A continuación, puedes ver un recorrido visual de cómo funciona el asistente e
 **4. Búsqueda de Lugares en la Capital**
 <br>
 <p align="center">
-  <img width="650" alt="Menú de Categorías de Búsqueda" src="https://github.com/user-attachments/assets/b1a5affd-9591-40ec-b68b-32f7864ab51a" />
+  <img width="650" alt="Menú de Categorías de Búsqueda" src="https://github.com/user-attachments/assets/4d56eca1-de44-4249-9e07-1313dc64be9a" />
 </p>
+
 <br>
 <p align="center">
-  <img width="500" alt="Resumen de los Parámetros de Búsqueda" src="https://github.com/user-attachments/assets/2f554790-e946-4213-9bcb-f29abcd33554" />
+  <img width="500" alt="Resumen de los Parámetros de Búsqueda" src="https://github.com/user-attachments/assets/e36d9f98-c5c6-49de-ae62-6b9492db2608" />
 </p>
+
 <br>
 <p align="center">
-  <img width="650" alt="Resultados de los Lugares" src="https://github.com/user-attachments/assets/59629eef-b7aa-419d-a0ba-fc1baa1798ad" />
+  <img width="650" alt="Resultados de los Lugares" src="https://github.com/user-attachments/assets/08f4a1c6-7526-4bd7-8426-5002bdc46f70" />
 </p>
 <br>
 
